@@ -1,6 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import * as rp from 'request-promise-native';
-import { resCustomers } from './ts.customers.mock';
 import { AuthGuard } from './auth/auth.guard';
 
 export interface ReportInfo {
@@ -14,7 +13,7 @@ export interface ReportInfo {
 
 const seminarReportInfo: ReportInfo = {
   'clani'        : [ 'tt5157' ],
-  'opis_projekta': 'Projekt implementira aplikacijo sestavljeno iz več mikrostoritev za zbiranje podatkov iz več virov med drugimi tudi twitter (mini spletni pajek). Za beleženje se uporablja custom ELK stack dosegljiv na http://log.tomakic.com/elk/app/kiban',
+  'opis_projekta': 'Projekt implementira aplikacijo sestavljeno iz več mikrostoritev za zbiranje/sestavljanje podatkov iz določenega spletnega vira (web spider).',
   'mikrostoritve': [
     'http://35.198.123.57:3000/job',
     'http://35.198.182.182:3000',
@@ -51,15 +50,7 @@ export class AppController {
 
 	@Get()
 	async root() {
-	  let jobsFound;
-	  try {
-      jobsFound = await rp({uri: 'http://apijob:3000/job', json: true});
-      jobsFound = jobsFound.length;
-    } catch (e) {
-      jobsFound = e.message;
-    }
-
-    return { doc: '/api', jobsFound, resCustomers };
+	  return { doc: '/api' };
   }
 
   @Get('v1/demo/info')
